@@ -1,3 +1,4 @@
+const minimatch = require('minimatch');
 const defaultNames = require('./default_names');
 
 const toTitleCase = (str) => str.replace(
@@ -5,19 +6,22 @@ const toTitleCase = (str) => str.replace(
     (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
 );
 
-const formatJobSpec = (jobSpec) => {
-  // Set value.env if input has shorthand
-  if (typeof value === 'string') {
-    jobSpec = {'env': value};
+const envName = (env) => defaultNames[env] || toTitleCase(env);
+
+const matchPatterns = (ref, patterns) => {
+  if (patterns === undefined) return false;
+  // Convert to array if string given
+  patterns = [].concat(patterns);
+  for (const pattern of patterns) {
+    if (minimatch(ref, pattern)) {
+      return true;
+    }
   }
-  // Compute name if not specified
-  if (!value.name) {
-    jobSpec.name = defaultNames[value.env] || toTitleCase(value.env);
-  }
-  return jobSpec;
+  return false;
 };
 
-exports = {
+module.exports = {
   toTitleCase,
-  formatJobSpec,
+  envName,
+  matchPatterns,
 };

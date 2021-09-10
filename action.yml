@@ -1,11 +1,11 @@
 name: Node Matrix Action
 description: Outputs a matrix with the current Node versions.
 inputs:
-  map:
+  envs:
     description: Docker repo to prepend to `extra_tags`.
     required: false
     default: |
-      master: prod
+      prod: master
       dev: dev
       stage: stage
       test: test

@@ -4,13 +4,13 @@ This action outputs a matrix with deployment configuration depending on a config
 
 ## Inputs
 
-### `map`
+### `envs`
 
-An object that maps each branch to a given environment. Each key corresponds to a branch, with the value being either a string ([shorthand syntax](#shorthand-syntax)) or an object ([full syntax](#full-syntax)).
+An object that maps each environment to a branch and/or a tag. Each key corresponds to an environment, with the value being either a string ([shorthand syntax](#shorthand-syntax)) or an object ([full syntax](#full-syntax)).
 
 Default:
 ```yaml
-master: prod
+prod: master
 dev: dev
 stage: stage
 test: test
@@ -18,12 +18,23 @@ test: test
 
 #### Shorthand Syntax
 
-The shorthand syntax allows for a simple `key: value` configuration, where `key` corresponds to a branch, and `value` corresponds to an environment. The shorthand string will get converted into the standard syntax, and in the resulting matrix the environment will be accessible at `${{ matrix.env }}`.
+The shorthand syntax allows for a simple `key: value` configuration, where `key` corresponds to an environment, and `value` corresponds to a branch (or a branch pattern). The shorthand string will get converted into the standard syntax, and in the resulting matrix the environment will be accessible at `${{ matrix.env }}`.
 
 #### Full Syntax
 
-The full syntax allows for more configuration. `key` still corresponds to a branch, but the value is an object with any number of values.   
-`env` is still required, `name` will be computed if it is not configured, then any other value will be passed through to the resulting matrix.
+The full syntax allows for more configuration. `key` still corresponds to an environment, but the value is an object with any number of values.   
+`branch` and `tag` are available as strings, patterns, or arrays of them.
+
+Examples:
+```yaml
+prod:
+  branch: master
+  tag: v*
+test:
+  branch: test*
+dev:
+  branch: [dev, dev-*]
+```
 
 #### Custom Environment Name
 
@@ -31,7 +42,7 @@ To configure an explicit environment name, use the full syntax and set the name:
 
 ```yaml
 demo:
-  env: demo
+  branch: demo
   name: Cool Name # If not specified, name would be computed as `Demo`
 ```
 
@@ -63,7 +74,7 @@ gen-deploy-matrix:
       id: gen-matrix
       with:
         map:
-          master: prod
+          prod: master
           dev: dev
           stage: stage
           test: test
