@@ -11509,9 +11509,9 @@ function wrappy (fn, cb) {
 /***/ }),
 
 /***/ 3546:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((module) => {
 
-exports = {
+module.exports = {
   prod: 'Production',
   dev: 'Development',
 };

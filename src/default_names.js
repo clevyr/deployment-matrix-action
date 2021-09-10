@@ -1,4 +1,4 @@
-exports = {
+module.exports = {
   prod: 'Production',
   dev: 'Development',
 };
