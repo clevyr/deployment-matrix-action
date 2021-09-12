@@ -1,4 +1,4 @@
 module.exports = {
-  prod: 'Production',
-  dev: 'Development',
+  prod: "Production",
+  dev: "Development",
 };

@@ -3,7 +3,7 @@
 
 set -eu
 
-npm run lint
+npx lint-staged
 
 npm run build
 git add :/dist

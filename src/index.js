@@ -1,11 +1,11 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-const yaml = require('js-yaml');
-const {envName, matchPatterns} = require('./util');
+const core = require("@actions/core");
+const github = require("@actions/github");
+const yaml = require("js-yaml");
+const { envName, matchPatterns } = require("./util");
 
 try {
-  const envs = yaml.load(core.getInput('envs'));
-  const matrix = {'include': []};
+  const envs = yaml.load(core.getInput("envs"));
+  const matrix = { include: [] };
 
   // Split GitHub ref into type (heads, tags) and ref
   const [, type, ref] = github.context.ref.match(/^refs\/(.+?)\/(.+?)$/);
@@ -14,18 +14,20 @@ try {
     let patterns;
     let extraValues = {};
 
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       // Shorthand only matches branches
-      if (type !== 'heads') continue;
+      if (type !== "heads") continue;
       patterns = value;
     } else {
-      if (type === 'heads') { // Ref is a branch
+      if (type === "heads") {
+        // Ref is a branch
         patterns = value.branch;
-      } else if (type === 'tags') { // Ref is a tag
+      } else if (type === "tags") {
+        // Ref is a tag
         patterns = value.tag;
       }
 
-      extraValues = {...value};
+      extraValues = { ...value };
       delete extraValues.branch;
       delete extraValues.tag;
     }
@@ -39,7 +41,7 @@ try {
     }
   }
 
-  core.setOutput('matrix', matrix);
+  core.setOutput("matrix", matrix);
 } catch (error) {
   core.setFailed(error.message);
 }

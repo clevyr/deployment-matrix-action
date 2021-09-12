@@ -1,10 +1,11 @@
-const minimatch = require('minimatch');
-const defaultNames = require('./default_names');
+const minimatch = require("minimatch");
+const defaultNames = require("./default_names");
 
-const toTitleCase = (str) => str.replace(
-    /\w*/g,
-    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
-);
+const toTitleCase = (str) =>
+  str.replace(
+    /\w*s/g,
+    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()
+  );
 
 const envName = (env) => defaultNames[env] || toTitleCase(env);
 

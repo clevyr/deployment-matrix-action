@@ -11512,8 +11512,8 @@ function wrappy (fn, cb) {
 /***/ ((module) => {
 
 module.exports = {
-  prod: 'Production',
-  dev: 'Development',
+  prod: "Production",
+  dev: "Development",
 };
 
 
@@ -11525,11 +11525,11 @@ module.exports = {
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 const yaml = __nccwpck_require__(1917);
-const {envName, matchPatterns} = __nccwpck_require__(6254);
+const { envName, matchPatterns } = __nccwpck_require__(6254);
 
 try {
-  const envs = yaml.load(core.getInput('envs'));
-  const matrix = {'include': []};
+  const envs = yaml.load(core.getInput("envs"));
+  const matrix = { include: [] };
 
   // Split GitHub ref into type (heads, tags) and ref
   const [, type, ref] = github.context.ref.match(/^refs\/(.+?)\/(.+?)$/);
@@ -11538,18 +11538,20 @@ try {
     let patterns;
     let extraValues = {};
 
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       // Shorthand only matches branches
-      if (type !== 'heads') continue;
+      if (type !== "heads") continue;
       patterns = value;
     } else {
-      if (type === 'heads') { // Ref is a branch
+      if (type === "heads") {
+        // Ref is a branch
         patterns = value.branch;
-      } else if (type === 'tags') { // Ref is a tag
+      } else if (type === "tags") {
+        // Ref is a tag
         patterns = value.tag;
       }
 
-      extraValues = {...value};
+      extraValues = { ...value };
       delete extraValues.branch;
       delete extraValues.tag;
     }
@@ -11563,7 +11565,7 @@ try {
     }
   }
 
-  core.setOutput('matrix', matrix);
+  core.setOutput("matrix", matrix);
 } catch (error) {
   core.setFailed(error.message);
 }
@@ -11577,10 +11579,11 @@ try {
 const minimatch = __nccwpck_require__(3973);
 const defaultNames = __nccwpck_require__(2598);
 
-const toTitleCase = (str) => str.replace(
-    /\w*/g,
-    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
-);
+const toTitleCase = (str) =>
+  str.replace(
+    /\w*s/g,
+    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()
+  );
 
 const envName = (env) => defaultNames[env] || toTitleCase(env);
 
