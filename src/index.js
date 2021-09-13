@@ -1,10 +1,11 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const yaml = require("js-yaml");
-const { envName, matchPatterns } = require("./util");
+const { envName, matchPatterns, parseDynamicList } = require("./util");
 
 try {
   const envs = yaml.load(core.getInput("envs"));
+  const jobs = parseDynamicList(core.getInput("jobs"));
   const matrix = { include: [] };
 
   // Split GitHub ref into type (heads, tags) and ref
@@ -33,11 +34,14 @@ try {
     }
 
     if (matchPatterns(ref, patterns)) {
-      matrix.include.push({
-        env,
-        name: value.name || envName(env),
-        ...extraValues,
-      });
+      for (const job of jobs) {
+        matrix.include.push({
+          env,
+          job,
+          name: value.name || envName(env),
+          ...extraValues,
+        });
+      }
     }
   }
 

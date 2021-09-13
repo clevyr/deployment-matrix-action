@@ -1,5 +1,6 @@
 const minimatch = require("minimatch");
 const defaultNames = require("./default_names");
+const yaml = require("js-yaml");
 
 const toTitleCase = (str) =>
   str.replace(
@@ -21,8 +22,17 @@ const matchPatterns = (ref, patterns) => {
   return false;
 };
 
+const parseDynamicList = (s) => {
+  s = yaml.load(s);
+  if (typeof s === "string") {
+    return s.split(/[,|;\n]/)
+  }
+  return s;
+}
+
 module.exports = {
   toTitleCase,
   envName,
   matchPatterns,
+  parseDynamicList
 };

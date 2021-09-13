@@ -46,6 +46,10 @@ demo:
   name: Cool Name # If not specified, name would be computed as `Demo`
 ```
 
+### `jobs`
+
+List/CSV of jobs to run for each environment. Default: `app`
+
 ## Outputs
 
 ### `matrix`

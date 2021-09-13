@@ -11525,10 +11525,11 @@ module.exports = {
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 const yaml = __nccwpck_require__(1917);
-const { envName, matchPatterns } = __nccwpck_require__(6254);
+const { envName, matchPatterns, parseDynamicList } = __nccwpck_require__(6254);
 
 try {
   const envs = yaml.load(core.getInput("envs"));
+  const jobs = parseDynamicList(core.getInput("jobs"));
   const matrix = { include: [] };
 
   // Split GitHub ref into type (heads, tags) and ref
@@ -11557,11 +11558,14 @@ try {
     }
 
     if (matchPatterns(ref, patterns)) {
-      matrix.include.push({
-        env,
-        name: value.name || envName(env),
-        ...extraValues,
-      });
+      for (const job of jobs) {
+        matrix.include.push({
+          env,
+          job,
+          name: value.name || envName(env),
+          ...extraValues,
+        });
+      }
     }
   }
 
@@ -11578,6 +11582,7 @@ try {
 
 const minimatch = __nccwpck_require__(3973);
 const defaultNames = __nccwpck_require__(2598);
+const yaml = __nccwpck_require__(1917);
 
 const toTitleCase = (str) =>
   str.replace(
@@ -11599,10 +11604,19 @@ const matchPatterns = (ref, patterns) => {
   return false;
 };
 
+const parseDynamicList = (s) => {
+  s = yaml.load(s);
+  if (typeof s === "string") {
+    return s.split(/[,|;\n]/)
+  }
+  return s;
+}
+
 module.exports = {
   toTitleCase,
   envName,
   matchPatterns,
+  parseDynamicList
 };
 
 
