@@ -46,14 +46,14 @@ const matchPatterns = (ref, patterns) => {
 const parseDynamicList = (s) => {
   s = yaml.load(s);
   if (typeof s === "string") {
-    return s.split(/[,|;\n]/)
+    return s.split(/[,|;\n]/);
   }
   return s;
-}
+};
 
 module.exports = {
   toTitleCase,
   envName,
   matchPatterns,
-  parseDynamicList
+  parseDynamicList,
 };
