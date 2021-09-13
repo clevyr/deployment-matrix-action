@@ -11532,7 +11532,7 @@ try {
   const matrix = { include: [] };
 
   // Split GitHub ref into type (heads, tags) and ref
-  const [, type, ref] = github.context.ref.match(/^refs\/(.+?)\/(.+?)$/);
+  const [, type, ref] = github.context.ref.match(/^refs\/(.+)\/(.+)$/);
 
   for (const [env, value] of Object.entries(envs)) {
     let patterns;
