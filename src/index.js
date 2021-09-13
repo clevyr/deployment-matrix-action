@@ -36,14 +36,17 @@ try {
     if (matchPatterns(ref, patterns)) {
       for (const job of jobs) {
         matrix.include.push({
+          name: value.name || envName(env),
           env,
           job,
-          name: value.name || envName(env),
           ...extraValues,
         });
       }
     }
   }
+  core.startGroup("Generated matrix");
+  core.info(yaml.dump(matrix));
+  core.endGroup();
 
   core.setOutput("matrix", matrix);
 } catch (error) {
