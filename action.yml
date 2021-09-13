@@ -1,5 +1,5 @@
-name: Node Matrix Action
-description: Outputs a matrix with the current Node versions.
+name: Deployment Matrix Action
+description: Outputs a matrix that deploys code to the correct environment.
 inputs:
   envs:
     description: Environment mapping
