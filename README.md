@@ -77,7 +77,7 @@ gen-deploy-matrix:
       uses: clevyr/deploy-matrix-action@v1
       id: gen-matrix
       with:
-        map:
+        envs: |
           prod: master
           dev: dev
           stage: stage
