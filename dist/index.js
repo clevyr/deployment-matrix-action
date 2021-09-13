@@ -11584,14 +11584,30 @@ const minimatch = __nccwpck_require__(3973);
 const defaultNames = __nccwpck_require__(2598);
 const yaml = __nccwpck_require__(1917);
 
-const toTitleCase = (str) =>
-  str.replace(
+/**
+ * Convert a string to title case
+ * @param {String} s
+ * @return {String}
+ */
+const toTitleCase = (s) =>
+  s.replace(
     /\w*s/g,
     (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()
   );
 
+/**
+ * Return a pretty environment name
+ * @param {String} env
+ * @return {String}
+ */
 const envName = (env) => defaultNames[env] || toTitleCase(env);
 
+/**
+ * Match a list of patterns against a value
+ * @param {String} ref
+ * @param {Array.<String>} patterns
+ * @return {boolean}
+ */
 const matchPatterns = (ref, patterns) => {
   if (patterns === undefined) return false;
   // Convert to array if string given
@@ -11604,6 +11620,11 @@ const matchPatterns = (ref, patterns) => {
   return false;
 };
 
+/**
+ * Parse a YAML or a CSV into an array
+ * @param {String} s
+ * @return {*}
+ */
 const parseDynamicList = (s) => {
   s = yaml.load(s);
   if (typeof s === "string") {
