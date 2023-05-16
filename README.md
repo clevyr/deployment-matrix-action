@@ -75,7 +75,7 @@ gen-deploy-matrix:
   steps:
     - name: Generate Matrix
       uses: clevyr/deploy-matrix-action@v1
-      id: gen-matrix
+      id: gen-deploy-matrix
       with:
         envs: |
           prod: master
