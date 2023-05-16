@@ -14004,7 +14004,7 @@ module.exports = {
 /***/ 6254:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const minimatch = __nccwpck_require__(1953);
+const { minimatch } = __nccwpck_require__(1953);
 const defaultNames = __nccwpck_require__(2598);
 const yaml = __nccwpck_require__(1917);
 

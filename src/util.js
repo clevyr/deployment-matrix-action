@@ -1,4 +1,4 @@
-const minimatch = require("minimatch");
+const { minimatch } = require("minimatch");
 const defaultNames = require("./default_names");
 const yaml = require("js-yaml");
 
