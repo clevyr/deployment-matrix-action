@@ -42,7 +42,7 @@ jobs:
         id: gen-matrix
         with:
           envs: |
-            prod: master
+            prod: main
             dev: dev
             stage: stage
             test: test
