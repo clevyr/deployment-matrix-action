@@ -11,6 +11,7 @@ try {
   // Split GitHub ref into type (heads, tags) and ref
   const [, type, ref] = github.context.ref.match(/^refs\/(.+)\/(.+)$/);
 
+  let count = 0;
   for (const [env, value] of Object.entries(envs)) {
     let patterns;
     let extraValues = {};
@@ -35,6 +36,7 @@ try {
 
     if (matchPatterns(ref, patterns)) {
       for (const job of jobs) {
+        count += 1;
         matrix.include.push({
           name: value.name || envName(env),
           env,
@@ -45,9 +47,11 @@ try {
     }
   }
   core.startGroup("Generated matrix");
+  core.info(`Matched ${count} envs`);
   core.info(yaml.dump(matrix));
   core.endGroup();
 
+  core.setOutput("count", count);
   core.setOutput("matrix", matrix);
 } catch (error) {
   core.setFailed(error.message);

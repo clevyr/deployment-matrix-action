@@ -64,6 +64,10 @@ includes:
     name: Development
 ```
 
+### `count`
+
+Count of matching environments.
+
 ## Example usage
 
 ```yaml
