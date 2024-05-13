@@ -1,9 +1,10 @@
-name: Renovate
+name: Build
 
 on:
   push:
     branches:
       - renovate/**
+      - dependabot/**
 
 env:
   COMMIT_MESSAGE: "chore(dist): Build action"
