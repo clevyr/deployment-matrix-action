@@ -1,13 +1,13 @@
-const { minimatch } = require("minimatch");
-const defaultNames = require("./default_names");
-const yaml = require("js-yaml");
+import { minimatch } from "minimatch";
+import defaultNames from "./default_names.js";
+import yaml from "js-yaml";
 
 /**
  * Convert a string to title case
  * @param {String} s
  * @return {String}
  */
-const toTitleCase = (s) =>
+export const toTitleCase = (s) =>
   s.replace(
     /\w*s/g,
     (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
@@ -18,7 +18,7 @@ const toTitleCase = (s) =>
  * @param {String} env
  * @return {String}
  */
-const envName = (env) => defaultNames[env] || toTitleCase(env);
+export const envName = (env) => defaultNames[env] || toTitleCase(env);
 
 /**
  * Match a list of patterns against a value
@@ -26,7 +26,7 @@ const envName = (env) => defaultNames[env] || toTitleCase(env);
  * @param {Array.<String>} patterns
  * @return {boolean}
  */
-const matchPatterns = (ref, patterns) => {
+export const matchPatterns = (ref, patterns) => {
   if (patterns === undefined) return false;
   // Convert to array if string given
   patterns = [].concat(patterns);
@@ -43,17 +43,10 @@ const matchPatterns = (ref, patterns) => {
  * @param {String} s
  * @return {*}
  */
-const parseDynamicList = (s) => {
+export const parseDynamicList = (s) => {
   s = yaml.load(s);
   if (typeof s === "string") {
     return s.split(/[,|;\n]/);
   }
   return s;
-};
-
-module.exports = {
-  toTitleCase,
-  envName,
-  matchPatterns,
-  parseDynamicList,
 };

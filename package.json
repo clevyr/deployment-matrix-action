@@ -1,5 +1,6 @@
 {
   "name": "node-versions-action",
+  "type": "module",
   "version": "1.0.0",
   "description": "Outputs a matrix with the current Node versions.",
   "main": "src/index.js",

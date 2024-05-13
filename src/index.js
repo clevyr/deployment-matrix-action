@@ -1,7 +1,7 @@
-const core = require("@actions/core");
-const github = require("@actions/github");
-const yaml = require("js-yaml");
-const { envName, matchPatterns, parseDynamicList } = require("./util");
+import * as core from "@actions/core";
+import * as github from "@actions/github";
+import yaml from "js-yaml";
+import { envName, matchPatterns, parseDynamicList } from "./util.js";
 
 try {
   const envs = yaml.load(core.getInput("envs"));
