@@ -61,3 +61,24 @@ jobs:
       matrix: ${{ fromJson(needs.test-gen-deploy-matrix.outputs.matrix) }}
     steps:
       - run: echo ${{ matrix.name }}
+
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/v') && contains(github.ref_name, '.')
+    needs: [build, lint, test-gen-deploy-matrix, test-output]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate Changelog
+        id: changelog
+        uses: gabe565/changelog-generator@v1
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.changelog.outputs.changelog }}
+      - uses: nowactions/update-majorver@v1
