@@ -10,7 +10,7 @@ const yaml = require("js-yaml");
 const toTitleCase = (s) =>
   s.replace(
     /\w*s/g,
-    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()
+    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
   );
 
 /**
