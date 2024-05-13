@@ -33602,7 +33602,7 @@ const yaml = __nccwpck_require__(1917);
 const toTitleCase = (s) =>
   s.replace(
     /\w*s/g,
-    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()
+    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
   );
 
 /**
