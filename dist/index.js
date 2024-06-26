@@ -36874,10 +36874,7 @@ minimatch.unescape = unescape_unescape;
  * @return {String}
  */
 const toTitleCase = (s) =>
-  s.replace(
-    /\w*s/g,
-    (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
-  );
+  s.replace(/\w\S*/g, (t) => t.charAt(0).toUpperCase() + t.substring(1));
 
 /**
  * Return a pretty environment name
