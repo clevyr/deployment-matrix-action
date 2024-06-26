@@ -35063,6 +35063,8 @@ var jsYaml = {
 /* harmony default export */ const js_yaml = (jsYaml);
 
 
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(1017);
 // EXTERNAL MODULE: ./node_modules/brace-expansion/index.js
 var brace_expansion = __nccwpck_require__(3717);
 ;// CONCATENATED MODULE: ./node_modules/minimatch/dist/esm/assert-valid-pattern.js
@@ -36921,6 +36923,7 @@ const parseDynamicList = (s) => {
 
 
 
+
 try {
   const envs = js_yaml.load(core.getInput("envs"));
   const jobs = parseDynamicList(core.getInput("jobs"));
@@ -36930,7 +36933,7 @@ try {
   const [, type, ref] = github.context.ref.match(/^refs\/(.+)\/(.+)$/);
 
   let count = 0;
-  for (const [env, value] of Object.entries(envs)) {
+  for (let [env, value] of Object.entries(envs)) {
     let patterns;
     let extraValues = {};
 
@@ -36939,12 +36942,31 @@ try {
       if (type !== "heads") continue;
       patterns = value;
     } else {
-      if (type === "heads") {
-        // Ref is a branch
-        patterns = value.branch;
-      } else if (type === "tags") {
-        // Ref is a tag
-        patterns = value.tag;
+      if (value.type === "temp") {
+        // Temp environments enabled
+        if (github.context.eventName === "pull_request") {
+          const prEvent = github.context.payload;
+          const targetLabel = value.label || prEvent.label?.name;
+          if (
+            prEvent.action === "labeled" &&
+            prEvent.label.name === targetLabel
+          ) {
+            patterns = ref;
+            value.name = `${value.name || toTitleCase(env)} #${prEvent.number}`;
+            env += prEvent.number;
+            const dir = external_path_.dirname(value.template);
+            value.path = external_path_.join(dir, env);
+            value.pr = prEvent.number;
+          }
+        }
+      } else {
+        if (type === "heads") {
+          // Ref is a branch
+          patterns = value.branch;
+        } else if (type === "tags") {
+          // Ref is a tag
+          patterns = value.tag;
+        }
       }
 
       extraValues = { ...value };

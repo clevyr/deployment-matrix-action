@@ -1,7 +1,13 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import yaml from "js-yaml";
-import { envName, matchPatterns, parseDynamicList } from "./util.js";
+import * as path from "path";
+import {
+  envName,
+  matchPatterns,
+  parseDynamicList,
+  toTitleCase,
+} from "./util.js";
 
 try {
   const envs = yaml.load(core.getInput("envs"));
@@ -12,7 +18,7 @@ try {
   const [, type, ref] = github.context.ref.match(/^refs\/(.+)\/(.+)$/);
 
   let count = 0;
-  for (const [env, value] of Object.entries(envs)) {
+  for (let [env, value] of Object.entries(envs)) {
     let patterns;
     let extraValues = {};
 
@@ -21,12 +27,31 @@ try {
       if (type !== "heads") continue;
       patterns = value;
     } else {
-      if (type === "heads") {
-        // Ref is a branch
-        patterns = value.branch;
-      } else if (type === "tags") {
-        // Ref is a tag
-        patterns = value.tag;
+      if (value.type === "temp") {
+        // Temp environments enabled
+        if (github.context.eventName === "pull_request") {
+          const prEvent = github.context.payload;
+          const targetLabel = value.label || prEvent.label?.name;
+          if (
+            prEvent.action === "labeled" &&
+            prEvent.label.name === targetLabel
+          ) {
+            patterns = ref;
+            value.name = `${value.name || toTitleCase(env)} #${prEvent.number}`;
+            env += prEvent.number;
+            const dir = path.dirname(value.template);
+            value.path = path.join(dir, env);
+            value.pr = prEvent.number;
+          }
+        }
+      } else {
+        if (type === "heads") {
+          // Ref is a branch
+          patterns = value.branch;
+        } else if (type === "tags") {
+          // Ref is a tag
+          patterns = value.tag;
+        }
       }
 
       extraValues = { ...value };
