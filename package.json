@@ -25,7 +25,7 @@
     "@actions/github": "6.0.0",
     "@octokit/webhooks-definitions": "3.67.3",
     "js-yaml": "4.1.0",
-    "minimatch": "9.0.4"
+    "minimatch": "9.0.5"
   },
   "devDependencies": {
     "@eslint/js": "9.5.0",
