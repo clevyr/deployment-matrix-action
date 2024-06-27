@@ -32,10 +32,13 @@ try {
         if (github.context.eventName === "pull_request") {
           const prEvent = github.context.payload;
           const targetLabel = value.label || prEvent.label?.name;
-          if (
-            prEvent.action === "labeled" &&
-            prEvent.label.name === targetLabel
-          ) {
+          const hasLabel =
+            (prEvent.action === "labeled" &&
+              prEvent.label.name === targetLabel) ||
+            prEvent.pull_request.labels.some(
+              (label) => label.name === targetLabel,
+            );
+          if (hasLabel) {
             patterns = ref;
             value.name = `${value.name || toTitleCase(env)} #${prEvent.number}`;
             env += prEvent.number;
