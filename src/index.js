@@ -31,15 +31,17 @@ try {
         // Temp environments enabled
         if (github.context.eventName === "pull_request") {
           const prEvent = github.context.payload;
-          const targetLabel = value.label;
-          if (!targetLabel) continue;
-          const hasLabel =
-            (prEvent.action === "labeled" &&
-              prEvent.label.name === targetLabel) ||
-            prEvent.pull_request.labels.some(
-              (label) => label.name === targetLabel,
+          let matches = false;
+          if (value.label) {
+            matches = prEvent.pull_request.labels.some(
+              (label) => label.name === value.label,
             );
-          if (hasLabel) {
+          } else if (value.removed_label) {
+            matches = !prEvent.pull_request.labels.some(
+              (label) => label.name === value.removed_label,
+            );
+          }
+          if (matches) {
             patterns = ref;
             value.name = `${value.name || toTitleCase(env)} #${prEvent.number}`;
             env += prEvent.number;
