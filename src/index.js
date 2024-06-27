@@ -31,7 +31,8 @@ try {
         // Temp environments enabled
         if (github.context.eventName === "pull_request") {
           const prEvent = github.context.payload;
-          const targetLabel = value.label || prEvent.label?.name;
+          const targetLabel = value.label;
+          if (!targetLabel) continue;
           const hasLabel =
             (prEvent.action === "labeled" &&
               prEvent.label.name === targetLabel) ||
