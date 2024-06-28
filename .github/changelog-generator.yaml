@@ -1,4 +1,6 @@
 # yaml-language-server: $schema=https://gabe565.github.io/changelog-generator/config.schema.json
+tag:
+  regexp: 'v\d+\.\d+\.\d+'
 filters:
   exclude:
     - "^docs"
