@@ -36950,9 +36950,15 @@ try {
               (label) => label.name === value.label,
             );
           } else if (value.removed_label) {
-            matches = !prEvent.pull_request.labels.some(
-              (label) => label.name === value.removed_label,
-            );
+            if (prEvent.action !== "closed") {
+              matches = !prEvent.pull_request.labels.some(
+                (label) => label.name === value.removed_label,
+              );
+            } else {
+              matches = prEvent.pull_request.labels.some(
+                (label) => label.name === value.removed_label,
+              );
+            }
           }
           if (matches) {
             patterns = ref;
