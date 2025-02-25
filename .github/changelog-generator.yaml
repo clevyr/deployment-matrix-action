@@ -15,5 +15,8 @@ groups:
   - title: Fixes
     order: 2
     regexp: "^(fix|perf)"
-  - title: Others
+  - title: Dependencies
     order: 999
+    regexp: '\(deps\):'
+  - title: Others
+    order: 998
