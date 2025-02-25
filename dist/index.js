@@ -37663,11 +37663,11 @@ const matchPatterns = (ref, patterns) => {
  * @return {*}
  */
 const parseDynamicList = (s) => {
-  s = js_yaml.load(s);
-  if (typeof s === "string") {
+  const parsed = js_yaml.load(s);
+  if (typeof parsed === "string") {
     return s.split(/[,|;\n]/);
   }
-  return s;
+  return parsed;
 };
 
 ;// CONCATENATED MODULE: ./src/index.js

@@ -41,9 +41,9 @@ export const matchPatterns = (ref, patterns) => {
  * @return {*}
  */
 export const parseDynamicList = (s) => {
-  s = yaml.load(s);
-  if (typeof s === "string") {
+  const parsed = yaml.load(s);
+  if (typeof parsed === "string") {
     return s.split(/[,|;\n]/);
   }
-  return s;
+  return parsed;
 };
