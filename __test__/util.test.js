@@ -36,6 +36,15 @@ describe("matchPatterns", () => {
     expect(matchPatterns("main", ["main"])).toBe(true);
     expect(matchPatterns("dev", ["main"])).toBe(false);
   });
+  const mainRegexp = "/m(ain|aster)/";
+  test("should match pattern using minimatch", () => {
+    expect(matchPatterns("main", mainRegexp)).toBe(true);
+    expect(matchPatterns("dev", mainRegexp)).toBe(false);
+  });
+  test("should match patterns using minimatch", () => {
+    expect(matchPatterns("main", [mainRegexp])).toBe(true);
+    expect(matchPatterns("dev", [mainRegexp])).toBe(false);
+  });
 });
 
 describe("parseDynamicList", () => {

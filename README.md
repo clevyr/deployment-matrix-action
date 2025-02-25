@@ -18,22 +18,29 @@ test: test
 
 #### Shorthand Syntax
 
-The shorthand syntax allows for a simple `key: value` configuration, where `key` corresponds to an environment, and `value` corresponds to a branch (or a branch pattern). The shorthand string will get converted into the standard syntax, and in the resulting matrix the environment will be accessible at `${{ matrix.env }}`.
+The shorthand syntax allows for a simple `key: value` configuration, where `key` corresponds to an environment, and `value` corresponds to a branch (or a glob or regex). The shorthand string will get converted into the standard syntax, and in the resulting matrix the environment will be accessible at `${{ matrix.env }}`.
 
 #### Full Syntax
 
-The full syntax allows for more configuration. `key` still corresponds to an environment, but the value is an object with any number of values.   
-`branch` and `tag` are available as strings, patterns, or arrays of them.
+The full syntax allows for more configuration. `key` still corresponds to an environment, but the value is an array with any number of values.   
+`branch` and `tag` can be strings, globs, regex patterns (surrounded by `/.../`), or an array of these.
 
-Examples:
+##### Glob Matching
+If the value is a glob, the [minimatch](https://github.com/isaacs/minimatch) library will be used to determine whether the current ref matches.
+
+##### Regex Matching
+If the value is a valid regex pattern, then the ref will be matched using [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp).
+
+Regex patterns must start with `/` and end with `/`.
+
+##### Examples
 ```yaml
 prod:
-  branch: master
-  tag: v*
-test:
-  branch: test*
+  tag: '/[0-9]+\.[0-9]\.[0-9]/'
+stage:
+  branch: stage*
 dev:
-  branch: [dev, dev-*]
+  branch: [main, dev]
 ```
 
 #### Custom Environment Name

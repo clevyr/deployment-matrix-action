@@ -37650,7 +37650,14 @@ const matchPatterns = (ref, patterns) => {
   // Convert to array if string given
   patterns = [].concat(patterns);
   for (const pattern of patterns) {
-    if (minimatch(ref, pattern)) {
+    if (pattern.startsWith("/") && pattern.endsWith("/")) {
+      const re = new RegExp(
+        "^" + pattern.substring(1, pattern.length - 1) + "$",
+      );
+      if (re.test(ref)) {
+        return true;
+      }
+    } else if (minimatch(ref, pattern)) {
       return true;
     }
   }
