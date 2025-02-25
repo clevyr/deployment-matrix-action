@@ -30,6 +30,7 @@ If the value is a glob, the [minimatch](https://github.com/isaacs/minimatch) lib
 
 ##### Regex Matching
 If the value is a valid regex pattern, then the ref will be matched using [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp).
+The regex will be anchored, meaning it must match the entire string. If you want to allow characters before or after the regex, prepend or append the pattern with `.*`.
 
 Regex patterns must start with `/` and end with `/`.
 
