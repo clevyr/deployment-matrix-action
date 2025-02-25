@@ -20,7 +20,7 @@ export const envName = (env) => defaultNames[env] || toTitleCase(env);
 /**
  * Match a list of patterns against a value
  * @param {String} ref
- * @param {Array.<String>} patterns
+ * @param {Array.<String>|string} patterns
  * @return {boolean}
  */
 export const matchPatterns = (ref, patterns) => {

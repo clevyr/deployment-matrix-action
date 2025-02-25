@@ -37642,7 +37642,7 @@ const envName = (env) => default_names[env] || toTitleCase(env);
 /**
  * Match a list of patterns against a value
  * @param {String} ref
- * @param {Array.<String>} patterns
+ * @param {Array.<String>|string} patterns
  * @return {boolean}
  */
 const matchPatterns = (ref, patterns) => {
